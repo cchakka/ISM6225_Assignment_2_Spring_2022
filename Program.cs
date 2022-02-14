@@ -191,16 +191,24 @@ namespace ISM6225_Assignment_2_Spring_2022
             {
                 string s = paragraph;
                 s = s.ToLower();  //Converting the paragraph to lower case.
-                /*
-                 * Creating a for loop to replace all banned word with empty string
-                 */
-                for (int y = 0; y < banned.Length; y++)
-                {
-                    s = s.Replace(banned[y], ""); 
-                }
+
                 string[] d = s.Split(new char[] { ' ', '!', ',', ':', ';', '?', '.', '\'' });//spliting the string based on the special character as per constraints
+                
                 int i = 0;
                 int[] f = new int[s.Length]; // declaring an integer array to store frequency of all words
+                /*
+ * Creating a for loop to replace all banned word with empty string
+ */
+                for (int y = 0; y < banned.Length; y++)
+                {
+                    for (int t = 0; t < d.Length; t++)
+                    {
+                        if (d[t] == banned[y])
+                        {
+                            d[t] = "";
+                        }
+                    }
+                }
                 int j = 0;
                 string[] unique = d.Distinct().ToArray();//storing only unique words
                 string[] v = new string[unique.Length]; // creating string array to store the words for which frequency is counted.
