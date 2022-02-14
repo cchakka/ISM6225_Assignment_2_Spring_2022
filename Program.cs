@@ -43,8 +43,8 @@ namespace ISM6225_Assignment_2_Spring_2022
 
             //Question 4:
             Console.WriteLine("Question 4");
-            string secret = "1807";
-            string guess = "7810";
+            string secret = "1122";
+            string guess = "2211";
             string hint = GetHint(secret, guess);
             Console.WriteLine("Hint for the guess is :{0}", hint);
             Console.WriteLine();
@@ -376,38 +376,25 @@ namespace ISM6225_Assignment_2_Spring_2022
         {
             try
             {
-                string[] s1 = new string[s.Length]; // getting the new array of string to store all new parts of string
-                bool flag = true; // to check if the string length is empty or not.
-                int i = 0;
-                while (flag)
+                var result = new List<int>(); // declaring the var to store lengths of the string
+                int j = 0; // Variable to index+1 location of end of parition string
+                int last = 0;// to Store last index location of the character in the string.
+
+                for (int i = 0; i < s.Length; i++)
                 {
-                    int index = s.LastIndexOf(s[0]); // cheking the last index of the first charater of the string
-                    s1[i] = s.Substring(0, index + 1); // Copy the string from index position 0 to last index location of forst character
-                    int len = s1[i].Length; // checking the length of new string.
-                    s = s.Substring(index + 1, (s.Length - len)); // Removing the string elements of s1[i] in the string s.
-                    for (int j = 0; j < len && s != ""; j++)
+                    last = Math.Max(last, s.LastIndexOf(s[i])); // checking max value of last index of the present character to the previous character
+
+                    if (last == i) // if the present last index of the character is equal to the index location of the character
+                                    // that means it is not avaliable further in the string and we need to split the string at this location
                     {
-                        index = s.LastIndexOf(s1[i][j]); // checking last index in string s of all characters of string string s1[i]
-                        if (index >= 0) // if index is greater or equal to zero indicates that the character existing in string s.
-                        {
-                            s1[i] = s1[i] + s.Substring(0, index + 1); // adding the part of the string from index 0 to location of that matched character to string s[i].
-                            len = s1[i].Length; // since we added new string to the existing string s1[i] and now we will have new length.
-                            s = s.Substring(index + 1, (s.Length - index - 1)); // removing the substring which was previously added.
-                        }
+                        result.Add(i - j + 1); // adding the string length of the parition string in the results.
+                        // value of the string will be calcuated as index location +1 - previous parition location.
+                        j = i + 1; // index +1 showing that we parition that string till that point.
                     }
-                    i += 1; // since now we have verified all elements in string s[i] mpw we will create new string hence we are incrementing the index location of the string array s1.
-                    if (s == "") // if s string is empty that all elements are split into various new string and we don't have continue the fn.
-                    {
-                        flag = false;
-                    }
-                }
-                int[] s2 = new int[i]; // new array to store all string lengths of substrings
-                for (int j = 0; j < i; j++)
-                {
-                    s2[j] = (s1[j].Length); // storing the string lengths of all new substrings
                 }
 
-                return new List<int>(s2);
+
+                return (result);
             }
             catch (Exception)
             {
